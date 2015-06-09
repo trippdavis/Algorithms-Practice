@@ -266,14 +266,68 @@ end
 # Your palindrome checker could reverse the string and compare it to the original, but that takes extra memory.
 # Instead, you should be able to solve the problem with O(1) memory.
 def longest_palindrome(string)
-
+  length = string.length
+  while true
+    (0..(string.length - length)).each do |i|
+      word = string[i...(i + length)]
+      return [i, (i + length - 1)] if is_palindrome?(word)
+    end
+    length -= 1
+  end
 end
 
 # Given two arrays, find the intersection of both sets.
 # It should be trivial to write an O(n**2) solution. Use sorting to solve in O(nlog(n)).
 # Next, improve this to O(n) time (maybe use a non-array datastructure).
 def fast_intersection(array_one, array_two)
+  count = {}
+  array_one.each do |el|
+    if count[el]
+      count[el] += 1
+    else
+      count[el] = 1
+    end
+  end
+  int = []
+  array_two.each do |el|
+    if count[el] && count[el] > 0
+      count[el] -= 1
+      int << el
+    end
+  end
+  int
+end
 
+def medium_intersection(array_one, array_two) # O(nlogn)
+  sorted_one = array_one.sort
+  sorted_two = array_two.sort
+  i = 0
+  j = 0
+  int = []
+  until i == sorted_one.length || j == sorted_two.length
+    case sorted_one[i] <=> sorted_two[j]
+    when 0
+      int << sorted_one[i]
+      i += 1
+      j += 1
+    when -1
+      i += 1
+    when 1
+      j += 1
+    end
+  end
+
+  int
+end
+
+def slow_intersection(array_one, array_two) # O(n**2)
+  int = []
+  array_one.each do |el1|
+    array_two.each do |el2|
+      int << el1 if el1 == el2
+    end
+  end
+  int
 end
 
 # Write a function that takes two arrays of integers and returns an array with all the subsets commmon to both.
