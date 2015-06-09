@@ -35,36 +35,91 @@ end
 
 # Write a function that takes two strings and returns the longest common substring.
 def common_substrings(string_one, string_two)
+  if string_one.length <= string_two.length
+    longer_string = string_two
+    shorter_string = string_one
+  else
+    longer_string = string_one
+    shorter_string = string_two
+  end
 
+
+  length = shorter_string.length
+  until length == 0
+    shorter_string_subs = []
+    (0..shorter_string.length - length).each do |start|
+      sub = shorter_string[start...start + length]
+      return sub if longer_string.include?(sub)
+    end
+
+    length -= 1
+  end
+  return ""
 end
 
 # Write a function that takes an array of integers and returns their sum.
 # Use recursion.
 def sum_rec(numbers)
-
+  return 0 if numbers.empty?
+  num = numbers.pop
+  num + sum_rec(numbers)
 end
 
 # Write a function which returns the first n elements from the fibonnacci sequence, given n.
 def fibs(n)
-
+  return [] if n == 0
+  return [0] if n == 1
+  return [0, 1] if n == 2
+  prev_fibs = fibs(n - 1)
+  prev_fibs << (prev_fibs[-1] + prev_fibs[-2])
 end
 
 # Write a function that takes a string and returns true if it's a palindrome, false if it's not.
 # Your solution should take less time and memory than rebuilding the string backward and comparing the two.
 def is_palindrome?(string)
-
+  (0...((string.length) / 2)).each do |left|
+    return false unless string[left] == string[-(left + 1)]
+  end
+  return true
 end
 
 # Implement the Folding Cipher.
 # It folds the alphabet in half and uses the adjacent letter.
 # a <=> z, b <=> y, c <=> x, m <=> n.
 def folding_cipher(string)
+  letters = ("a".."z").to_a
+  cipher = {}
+  (0..12).each do |idx|
+    front = letters[idx]
+    back = letters[-(idx + 1)]
+    cipher[front] = back
+    cipher[back] = front
+  end
 
+  ciphered = ""
+  string.each_char do |char|
+    ciphered << cipher[char]
+  end
+
+  ciphered
 end
 
 # Write a method that finds all the unique substrings for a word.
 def uniq_subs(string)
+  subs = []
+  prev_subs = {}
 
+  (0...string.length).each do |first|
+    (first...string.length).each do |last|
+      sub = string[first..last]
+      unless prev_subs[sub]
+        subs << sub
+        prev_subs[sub] = true
+      end
+    end
+  end
+
+  subs
 end
 
 # Given an array of integers (positive and negative) find the largest contiguous subsum (sum of a subarray).
