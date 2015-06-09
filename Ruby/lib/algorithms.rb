@@ -160,14 +160,32 @@ end
 # Time complexity: O(n).
 # Return a set.
 def pair_sum(array, k)
+  pairs = Set.new
+  nums = Set.new
 
+  array.each do |el|
+    target = k - el
+    if nums.include?(target)
+      pairs << (el <= target ? [el, target] : [target, el])
+    end
+    nums << el
+  end
+
+  pairs
 end
 
 # Given a matrix of integers and coordinates of a rectangular region within the matrix.
 # Find the sum of numbers falling inside the rectangle.
 # Time complexity: O(number of rows * number of columns).
 def matrix_region_sum(matrix, top_left_coords, bottom_right_coords)
+  sum = 0
+  (top_left_coords[0]..bottom_right_coords[0]).each do |row|
+    (top_left_coords[1]..bottom_right_coords[1]).each do |col|
+      sum += matrix[row][col]
+    end
+  end
 
+  sum
 end
 
 # Implement Merge Sort (Hint: this typically involves a helper function)
