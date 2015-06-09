@@ -190,17 +190,45 @@ end
 
 # Implement Merge Sort (Hint: this typically involves a helper function)
 def merge_sort(array)
-
+  return array if array.length < 2
+  midpoint = array.length / 2
+  merge(merge_sort(array[0...midpoint]), merge_sort(array[midpoint..-1]))
 end
 
 def merge(left, right)
+  merged = []
+  i, j = 0, 0
+  until i == left.length || j == right.length
+    if left[i] <= right[j]
+      merged << left[i]
+      i += 1
+    else
+      merged << right[j]
+      j += 1
+    end
+  end
 
+  merged + left[i..-1] + right[j..-1]
 end
 
 # Implement binary search.
 # Return nil if the target isn't found.
 def binary_search(array, target)
-
+  return nil if array.empty?
+  midpoint = array.length / 2
+  case target <=> array[midpoint]
+  when 0
+    midpoint
+  when 1
+    right_idx = binary_search(array[(midpoint + 1)..-1], target)
+    if right_idx
+      right_idx + 1 + midpoint
+    else
+      nil
+    end
+  when -1
+    binary_search(array[0...midpoint], target)
+  end
 end
 
 # Given a list of numbers in an array, replace all the numbers
