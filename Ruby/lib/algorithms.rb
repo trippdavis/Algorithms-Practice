@@ -2,15 +2,35 @@
 # If it is greater than or equal to 10, sum the digits of the resulting number.
 # Keep repeating until there is only one digit in the result, called the "digital root".
 # Do not use string conversion within your method.
-def digital_root(number)
+require 'byebug'
 
+def digital_root(number)
+  return number if number < 10
+  sum = 0
+  until number < 10
+    sum += (number % 10)
+    number /= 10
+  end
+  sum += number
+  digital_root(sum)
 end
 
 # Write a function that takes a message and an increment amount and outputs the same letters shifted by that amount in the alphabet.
 # Assume lowercase and no punctuation.
 # Preserve spaces.
 def caesar_cipher(string, shift)
+  shifted = ""
+  letters = ("a".."z").to_a
+  string.each_char do |char|
+    old_idx = letters.find_index(char)
+    if old_idx
+      shifted << letters[(old_idx + shift) % 26]
+    else
+      shifted << " "
+    end
+  end
 
+  shifted
 end
 
 # Write a function that takes two strings and returns the longest common substring.
