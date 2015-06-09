@@ -126,13 +126,33 @@ end
 # You can solve this trivially in O(n**2) time by considering all subarrays.
 # Try to solve it in O(n) time with O(1) memory.
 def lcs(array)
+  old = 0
+  current = 0
+  array.each do |num|
+    current += num
+    if current < 0
+      current = 0
+    elsif current > old
+      old = current
+    end
+  end
 
+  old
 end
 
 # Write a function that takes a year (four digit integer) and returns an array with the 10 closest subsequent years that meet the following condition:
 # the first two digits summed with the last two digits are equal to the middle two digits.
 def silly_years(year)
+  years = []
+  until years.length == 10
+    year_str = year.to_s
+    if (year_str[0..1].to_i + year_str[2..3].to_i == year_str[1..2].to_i)
+      years << year
+    end
+    year += 1
+  end
 
+  years
 end
 
 # Given an array of integers, return all pairs that sum up to a specified value k.
