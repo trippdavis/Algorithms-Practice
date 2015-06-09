@@ -235,12 +235,31 @@ end
 # with the product of all other numbers. Do this in O(n) time without
 # using division.
 def productify(array)
+  prods = [1] * array.length
+  current = array[0]
+  (1...array.length).each do |i|
+    prods[i] *= current
+    current *= array[i]
+  end
+  current = array[-1]
+  (array.length - 2).downto(0).each do |i|
+    prods[i] *= current
+    current *= array[i]
+  end
 
+  prods
 end
 
 # Write a function that takes an array and returns all of its subsets.
 def subsets(array)
-
+  return [[]] if array.empty?
+  number = array.pop
+  prev_subsets = subsets(array)
+  new_subsets = []
+  prev_subsets.each do |subset|
+    new_subsets << ([number] + subset)
+  end
+  prev_subsets + new_subsets
 end
 
 # Take a string and return the indices of the start/end of the longest palindrome it contains.
