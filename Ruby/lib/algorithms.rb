@@ -393,28 +393,67 @@ end
 # The order of non-zero elements does not matter.
 # Try to accomplish this in O(n) time and O(1) space.
 def move_zeros(array)
+  count = 0
+  index = 0
+  array.each do |el|
+    if el == 0
+      count += 1
+    else
+      array[index] = el
+      index += 1
+    end
+  end
+  (index...array.length).each do |i|
+    array[i] = 0
+  end
 
+  array
 end
 
 # Implement the 'look and say' function.
 #'Look and say' takes an input array and outputs an array.
 # The output array describes the count of the elements in the input array as they appear in order.
 def look_and_say(array)
-
+  output = []
+  count = 1
+  current = array[0]
+  (1...array.length).each do |index|
+    if array[index] == current
+      count += 1
+    else
+      output << [count, current]
+      current = array[index]
+      count = 1
+    end
+  end
+  output << [count, current]
 end
 
 # Implement a stack with a method max that returns the maximum value.
 # It should run in O(1) time.
 class MaxStack
   def initialize
+    @stack = []
   end
 
   def push(value)
+    if @stack.empty?
+      @stack << [value, value]
+    else
+      new_max = [self.max, value].max
+      @stack << [value, new_max]
+    end
   end
 
   def pop
+    @stack.pop
   end
 
   def max
+    if @stack.empty?
+      nil
+    else
+      @stack[-1][1]
+    end
   end
 end
