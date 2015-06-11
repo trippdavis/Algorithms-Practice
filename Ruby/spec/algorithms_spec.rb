@@ -247,7 +247,7 @@ describe 'common_subsets' do
     array_one = [1, 2, 3, 4, 5]
     array_two = [2, 3, 4]
     subsets = [[], [4], [3], [4, 3], [2], [4, 2], [3, 2], [4, 3, 2]]
-    expect(common_subsets(array_one, array_two)).to eq(subsets)
+    expect(common_subsets(array_one, array_two)).to match_array(subsets)
   end
 
   it 'should return the common subsets of two arrays' do

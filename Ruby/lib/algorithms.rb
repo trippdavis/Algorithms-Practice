@@ -334,28 +334,40 @@ end
 # Don't generate all subsets of both array, which would take time exponential time.
 # Instead, directly generate the subsets of both.
 def common_subsets(array_one, array_two)
-
+  subsets(fast_intersection(array_one, array_two))
 end
 
 # Given an array and index,
 # find if it's possible to reach 0 by starting at the index
 # and repeatedly moving left/right by the distance found at array[index].
 def can_win?(array, index)
-
+  until index < 0 || index >= array.length
+    return true if array[index] == 0
+    index += array[index]
+  end
+  false
 end
 
 # Assume an array of length n, containing the numbers 1..n in jumbled order.
 # "Sort" this array in O(n) time.
 # You should be able to do this without looking at the input.
 def sort1(array)
-
+  (1..(array.length)).to_a
 end
 
 # Assume an array of length n with numbers in the range 1..N (N >= n).
 # Sort this array in O(n + N) time.
 # You may use O(N) memory.
 def sort2(array, max_value)
-
+  counts = [0] * max_value
+  array.each do |el|
+    counts[el - 1] += 1
+  end
+  sorted = []
+  counts.each_with_index do |count, el|
+    sorted += ([el + 1] * count)
+  end
+  sorted
 end
 
 # Say I give you an array of n strings, each of length k.
@@ -364,7 +376,17 @@ end
 # Hint: do not compare any two strings.
 # All strings contain only lowercase letters a..z without whitespace or punctuation.
 def sort3(array, length)
+  (length - 1).downto(0).each do |index|
+    new_array = []
+    ("a".."z").each do |char|
+      array.each do |string|
+        new_array << string if string[index] == char
+      end
+    end
+    array = new_array
+  end
 
+  array
 end
 
 # Given an array, move all zeros to the end.
