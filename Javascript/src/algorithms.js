@@ -9,19 +9,69 @@ if(typeof Algorithms === "undefined") {
 // Keep repeating until there is only one digit in the result, called the "digital root".
 // Do not use string conversion within your method.
 Algorithms.digitalRoot = function (number) {
+  while (number >= 10) {
+    var remainder = number % 10;
+    number = remainder + Algorithms.digitalRoot(Math.floor(number / 10));
+  }
 
+  return number;
 };
 
 // Write a function that takes a message and an increment amount and outputs the same letters shifted by that amount in the alphabet.
 // Assume lowercase and no punctuation.
 // Preserve spaces.
 Algorithms.caesarCipher = function (string, shift) {
-
+  var ciphered = "";
+  for (var i = 0; i < string.length; i++) {
+    var char = string[i];
+    var code = char.charCodeAt(0);
+    if (char === " ") {
+      ciphered += " ";
+    } else {
+      var newCode = code + shift;
+      if (newCode > 122) {
+        newCode = ((newCode % 122) + 96);
+      }
+      ciphered += String.fromCharCode(newCode);
+    }
+  }
+  return ciphered;
 };
 
 // Write a function that takes two strings and returns the lenght of the longest common substring.
 Algorithms.commonSubstrings = function (stringOne, stringTwo) {
+  var short, long;
+  if (stringOne.length <= stringTwo.length) {
+    short = stringOne;
+    long = stringTwo;
+  } else {
+    short = stringTwo;
+    long = stringOne;
+  }
 
+  var length = short.length;
+  while (length > 0) {
+    var subs1 = Algorithms.substrings(short, length);
+    var subs2 = Algorithms.substrings(long, length);
+    for (var i = 0; i < subs1.length; i++) {
+      for (var j = 0; j < subs2.length; j++) {
+        if (subs1[i] === subs2[j]) {
+          return length;
+        }
+      }
+    }
+    length--;
+  }
+  return "";
+};
+
+Algorithms.substrings = function (string, length) {
+  var subs = [];
+  for (var i = 0; i <= string.length - length; i++) {
+    subs.push(string.slice(i, i + length));
+  }
+
+  return subs;
 };
 
 // Write a function that takes an array of integers and returns their sum.
