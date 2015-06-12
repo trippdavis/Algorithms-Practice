@@ -77,18 +77,38 @@ Algorithms.substrings = function (string, length) {
 // Write a function that takes an array of integers and returns their sum.
 // Use recursion.
 Algorithms.sumRec = function (numbers) {
-
+  if (numbers.length === 0) {
+    return 0;
+  }
+  var number = numbers.pop();
+  return number + Algorithms.sumRec(numbers);
 };
 
 // Write a function which returns the first n elements from the fibonnacci sequence, given n.
 Algorithms.fibs = function (number) {
-
+  if (number === 0) {
+    return [];
+  } else if (number === 1) {
+    return [0];
+  } else if (number === 2) {
+    return [0, 1];
+  } else {
+    var prev_fibs = Algorithms.fibs(number - 1);
+    var new_fib = prev_fibs[prev_fibs.length - 1] + prev_fibs[prev_fibs.length - 2];
+    prev_fibs.push(new_fib);
+    return prev_fibs;
+  }
 };
 
 // Write a function that takes a string and returns true if it's a palindrome, false if it's not.
 // Your solution should take less time and memory than rebuilding the string backward and comparing the two.
 Algorithms.isPalindrome = function (string) {
-
+  for (var i = 0; i < Math.floor(string.length / 2); i++) {
+    if (string[i] !== string[string.length - 1 - i]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 // Implement the Folding Cipher.
