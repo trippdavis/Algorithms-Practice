@@ -165,7 +165,16 @@ Algorithms.lcs = function (array) {
 // Write a function that takes a year (four digit integer) and returns an array with the 10 closest subsequent years that meet the following condition:
 // the first two digits summed with the last two digits are equal to the middle two digits.
 Algorithms.sillyYears = function (number) {
+  var years = [];
+  while (years.length < 10) {
+    var year = String(number);
+    if (Number(year.slice(0, 2)) + Number(year.slice(2)) === Number(year.slice(1, 3))) {
+      years.push(number);
+    }
+    number++;
+  }
 
+  return years;
 };
 
 // Given an array of integers, return all pairs that sum up to a specified value k.
@@ -173,14 +182,38 @@ Algorithms.sillyYears = function (number) {
 // Time complexity: O(n).
 // Return an array.
 Algorithms.pairSum = function (array, k) {
+  var pairs = [];
+  var numbers = {};
+  for (var i = 0; i < array.length; i++) {
+    var number = array[i];
+    var target = k - number;
+    if (numbers[target]) {
+      pairs.push(number < target ? [number, target] : [target, number]);
+      numbers[target]--;
+    } else {
+      if (numbers[number]) {
+        numbers[number]++;
+      } else {
+        numbers[number] = 1;
+      }
+    }
+  }
 
+  return pairs;
 };
 
 // Given a matrix of integers and coordinates of a rectangular region within the matrix.
 // Find the sum of numbers falling inside the rectangle.
 // Time complexity: O(number of rows * number of columns).
 Algorithms.matrixRegionSum = function (matrix, topLeftCoords, bottomRightCoords) {
+  var sum = 0;
+  for (var i = topLeftCoords[0]; i <= bottomRightCoords[0]; i++) {
+    for (var j = topLeftCoords[1]; j <= bottomRightCoords[1]; j++) {
+      sum += matrix[i][j];
+    }
+  }
 
+  return sum;
 };
 
 })();
