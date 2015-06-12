@@ -115,12 +115,30 @@ Algorithms.isPalindrome = function (string) {
 // It folds the alphabet in half and uses the adjacent letter.
 // a <=> z, b <=> y, c <=> x, m <=> n.
 Algorithms.foldingCipher = function (string) {
-
+  var ciphered = "";
+  for (var i = 0; i < string.length; i++) {
+    var oldCode = string[i].charCodeAt(0);
+    var newCode = 219 - oldCode;
+    ciphered += String.fromCharCode(newCode);
+  }
+  return ciphered;
 };
 
 // Write a method that finds all the unique substrings for a word.
 Algorithms.uniqSubs = function (string) {
+  var subs = [];
+  var prev_subs = {};
+  for (var start = 0; start < string.length; start++) {
+    for (var end = start; end < string.length; end++) {
+      var sub = string.slice(start, end + 1);
+      if (!prev_subs[sub]) {
+        prev_subs[sub] = true;
+        subs.push(sub);
+      }
+    }
+  }
 
+  return subs;
 };
 
 
@@ -128,7 +146,20 @@ Algorithms.uniqSubs = function (string) {
 // You can solve this trivially in O(n**2) time by considering all subarrays.
 // Try to solve it in O(n) time with O(1) memory.
 Algorithms.lcs = function (array) {
+  var lcs = 0;
+  var current = 0;
+  for (var i = 0; i < array.length; i++) {
+    if (current + array[i] > 0) {
+      current += array[i];
+      if (current > lcs) {
+        lcs = current;
+      }
+    } else {
+      current = 0;
+    }
+  }
 
+  return lcs;
 };
 
 // Write a function that takes a year (four digit integer) and returns an array with the 10 closest subsequent years that meet the following condition:
